@@ -1,6 +1,6 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -54,12 +54,9 @@ ${extra || "（无补充说明）"}
       headers: {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        // 下面两个是可选的，用来在 OpenRouter 排行里显示你的应用名
-        // "HTTP-Referer": "https://你的站点或GitHub地址",
-        // "X-Title": "AI PPT App"
       },
       body: JSON.stringify({
-        model: modelName, // 这里用 openrouter/free 或具体免费模型
+        model: modelName,
         messages: [
           {
             role: "system",
@@ -94,7 +91,6 @@ ${extra || "（无补充说明）"}
     // 尝试把返回内容解析为 JSON
     let pptStructure;
     try {
-      // 有些模型会返回带 ```json ... ``` 的代码块，这里做一下清洗
       const cleaned = rawContent
         .replace(/```json/gi, "")
         .replace(/```/g, "")
