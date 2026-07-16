@@ -124,6 +124,6 @@ app.get("/", (req, res) => {
   res.send("AI PPT 后端已运行");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
