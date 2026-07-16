@@ -234,7 +234,7 @@
           <button class="btn-danger" id="resetBtn">清空</button>
         </div>
         <div class="hint">
-          点击「生成 PPT 预览」后会调用后端 AI 模型生成大纲，请稍候几秒。导出 PPTX 基于 PptxGenJS 浏览器端能力。
+          点击「生成 PPT 预览」后会调用后端 AI 模型生成大纲。后端免费实例首次访问需约 30 秒唤醒，请耐心等待。导出 PPTX 基于 PptxGenJS 浏览器端能力。
         </div>
       </div>
 
@@ -347,7 +347,7 @@
 
         if (slide.type === 'cover') {
           el.innerHTML = `
-            <div class="theme-chip">${$('style').value}</div>
+            <div class="theme-chip">AI 生成</div>
             <div class="slide-no">第 ${index + 1} 页 / 封面</div>
             <div class="slide-title">${escapeHtml(slide.title)}</div>
             <div class="slide-subtitle">${escapeHtml(slide.subtitle)}</div>
@@ -389,12 +389,8 @@
     function gatherForm() {
       return {
         topic: $('topic').value.trim(),
-        scene: $('scene').value,
-        style: $('style').value,
-        pages: $('pages').value,
-        duration: $('duration').value.trim(),
-        speech: $('speech').value.trim(),
-        details: $('details').value.trim()
+        content: $('content').value.trim(),
+        extra: $('extra').value.trim()
       };
     }
 
