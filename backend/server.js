@@ -98,22 +98,32 @@ ${extra || "（无补充说明）"}
       return res.status(500).json({ error: "模型没有返回内容" });
     }
 
-    // 尝试把返回内容解析为 JSON
+    // 尝试把返回内容解析为 JSON（兼容模型偶尔包裹的 ```json 代码块或前后多余文字）
     let pptStructure;
     try {
-      // 有些模型会返回带 ```json ... ``` 的代码块，这里做一下清洗
       const cleaned = rawContent
         .replace(/```json/gi, "")
         .replace(/```/g, "")
         .trim();
-
-      pptStructure = JSON.parse(cleaned);
+      // 容错：截取第一个 { 到最后一个 } 之间的内容，避免前后多余文字导致解析失败
+      const start = cleaned.indexOf("{");
+      const end = cleaned.lastIndexOf("}");
+      const jsonStr = (start !== -1 && end !== -1 && end > start)
+        ? cleaned.slice(start, end + 1)
+        : cleaned;
+      pptStructure = JSON.parse(jsonStr);
     } catch (e) {
       console.error("JSON 解析失败，原始内容：", rawContent);
       return res.status(500).json({
-        error: "模型返回的内容不是合法 JSON",
+        error: "模型返回的内容不是合法 JSON，请重试",
         raw: rawContent
       });
+    }
+
+    // 结构校验：确保返回了标题和至少一页内容
+    if (!pptStructure || typeof pptStructure !== "object"
+        || !Array.isArray(pptStructure.slides) || pptStructure.slides.length === 0) {
+      return res.status(500).json({ error: "模型返回结构不完整，请重试" });
     }
 
     // 返回给前端
