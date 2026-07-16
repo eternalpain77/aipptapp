@@ -467,6 +467,9 @@
       return name.replace(/[\\/:*?"<>|]/g, '_').slice(0, 60);
     }
 
+    // 后端地址（Render 部署后的 URL）
+    const API_BASE = "https://aippt-backend.onrender.com";
+
     // 调用后端 AI 接口生成 PPT
     async function generatePPT() {
       const topic = document.getElementById("topic").value;
@@ -482,7 +485,7 @@
       $('generateBtn').textContent = '生成中...';
 
       try {
-        const res = await fetch("https://ai-ppt-backend.onrender.com/api/generate-ppt", {
+        const res = await fetch(`${API_BASE}/api/generate-ppt`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic, content, extra })

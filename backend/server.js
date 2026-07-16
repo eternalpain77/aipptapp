@@ -6,7 +6,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// 允许 GitHub Pages 前端跨域访问 Render 后端
+app.use(cors({
+  origin: [
+    "https://eternalpain77.github.io",
+    "http://localhost:3000"
+  ]
+}));
 app.use(express.json());
 
 // 根路由（教程要求：方便浏览器验证）
