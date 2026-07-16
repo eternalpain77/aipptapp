@@ -1,16 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// 根路由（健康检查）
+// 根路由（教程要求：方便浏览器验证）
 app.get("/", (req, res) => {
   res.send("AI PPT Backend is running");
 });
@@ -122,7 +121,9 @@ ${extra || "（无补充说明）"}
   }
 });
 
-// 按截图要求绑定 0.0.0.0
+// 教程要求：用 process.env.PORT || 3000，listen 加 "0.0.0.0"
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on port ${PORT}`);
 });
