@@ -499,7 +499,7 @@
         // 封面
         slides.push({
           type: 'cover',
-          title: ppt.title || topic,
+          title: topic || ppt.title,
           subtitle: `AI 生成 · ${new Date().toLocaleDateString('zh-CN')}`,
           bullets: []
         });
