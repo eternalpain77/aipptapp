@@ -482,7 +482,7 @@
       $('generateBtn').textContent = '生成中...';
 
       try {
-        const res = await fetch("/api/generate-ppt", {
+        const res = await fetch("https://ai-ppt-backend.onrender.com/api/generate-ppt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic, content, extra })
